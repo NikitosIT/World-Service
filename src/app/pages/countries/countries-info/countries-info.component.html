@@ -1,0 +1,40 @@
+<div class="country-info">
+  <a routerLink="/" class="country-info__back">
+    <span>Back</span>
+  </a>
+
+  @if (country(); as c) {
+    <article class="country-info__card">
+      <div class="country-info__flag-wrapper">
+        <img class="country-info__flag" [src]="c.flags.png" [alt]="'Flag of ' + c.name.common" />
+      </div>
+      <div class="country-info__body">
+        <h1 class="country-info__name">{{ c.name.common }}</h1>
+        <p class="country-info__official">{{ c.name.official }}</p>
+
+        <dl class="country-info__details">
+          <div class="country-info__row">
+            <dt>Population</dt>
+            <dd>{{ c.population | number }}</dd>
+          </div>
+          <div class="country-info__row">
+            <dt>Region</dt>
+            <dd>{{ c.region }}</dd>
+          </div>
+          <div class="country-info__row">
+            <dt>Capital</dt>
+            <dd>{{ c.capital?.join(', ') || '—' }}</dd>
+          </div>
+          @if (c.independent !== undefined) {
+            <div class="country-info__row">
+              <dt>Independent</dt>
+              <dd>{{ c.independent ? 'Yes' : 'No' }}</dd>
+            </div>
+          }
+        </dl>
+      </div>
+    </article>
+  } @else {
+    <p class="country-info__loading">Loading…</p>
+  }
+</div>

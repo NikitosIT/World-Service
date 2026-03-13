@@ -1,0 +1,38 @@
+<main class="countries-page">
+  <form [formGroup]="form">
+    <div class="countries-page__field">
+      <input type="text" placeholder="Search for a country..." formControlName="name" />
+      @if (form.controls.name.invalid && form.controls.name.dirty) {
+        <span class="countries-page__error">Only letters and spaces allowed.</span>
+      }
+    </div>
+    <select formControlName="regionControl">
+      @for (region of regions; track region) {
+        <option [value]="region">{{ region || 'All regions' }}</option>
+      }
+    </select>
+  </form>
+  <section class="countries-grid">
+    @if (loading()) {
+      <p class="countries-grid__loading">Loading countries...</p>
+    } @else {
+      @for (c of filteredCountries(); track c.name.common) {
+        <article class="country-card" [routerLink]="['/country', c.name.common]">
+          <div class="country-card__flag-wrapper">
+            <img class="country-card__flag" [src]="c.flags.png" [alt]="c.name.common" />
+          </div>
+
+          <div class="country-card__body">
+            <h2 class="country-card__name">{{ c.name.common }}</h2>
+
+            <ul class="country-card__list">
+              <li><span class="country-card__label">Population:</span> {{ c.population }}</li>
+              <li><span class="country-card__label">Region:</span> {{ c.region }}</li>
+              <li><span class="country-card__label">Capital:</span> {{ c.capital }}</li>
+            </ul>
+          </div>
+        </article>
+      }
+    }
+  </section>
+</main>

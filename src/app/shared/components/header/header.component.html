@@ -1,0 +1,19 @@
+<header class="app-header">
+  <div class="app-header__logo">{{ title() }}</div>
+
+  <nav class="app-header__nav">
+    <a
+      routerLink="/"
+      routerLinkActive="app-header__link--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="app-header__link"
+      >Countries</a
+    >
+    <a routerLink="/weather" routerLinkActive="app-header__link--active" class="app-header__link"
+      >Weather</a
+    >
+    <a routerLink="/currency" routerLinkActive="app-header__link--active" class="app-header__link"
+      >Currency</a
+    >
+  </nav>
+</header>

@@ -1,0 +1,48 @@
+<section class="weather-page">
+  <div class="weather-page__search">
+    <input
+      type="text"
+      [formControl]="form"
+      placeholder="Search for a city..."
+      class="weather-page__input"
+      autocomplete="off"
+    />
+    @if (form.errors?.['pattern']) {
+      <span class="error">Format Invalid</span>
+    }
+  </div>
+
+  @if (loading()) {
+    <p class="weather-page__hint">Loading...</p>
+  } @else if (error()) {
+    <p class="weather-page__hint">{{ error() }}</p>
+  } @else if (filterWeather$ | async; as w) {
+    <article class="weather-card">
+      <header class="weather-card__header">
+        <h1 class="weather-card__title">{{ w.location.name }}</h1>
+        <p class="weather-card__subtitle">{{ w.location.region }}, {{ w.location.country }}</p>
+      </header>
+
+      <div class="weather-card__main">
+        <img
+          class="weather-card__icon"
+          [src]="'https:' + w.current.condition.icon"
+          [alt]="w.current.condition.text"
+          width="64"
+          height="64"
+        />
+        <div class="weather-card__temp-wrap">
+          <span class="weather-card__temp">{{ w.current.temp_c | number: '1.0-0' }}°</span>
+          <span class="weather-card__unit">C</span>
+        </div>
+        <p class="weather-card__condition">{{ w.current.condition.text }}</p>
+      </div>
+
+      <footer class="weather-card__footer">
+        <time class="weather-card__time">{{ w.location.localtime }}</time>
+      </footer>
+    </article>
+  } @else {
+    <p class="weather-page__hint">Type a city name to see the current weather.</p>
+  }
+</section>

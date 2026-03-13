@@ -1,0 +1,35 @@
+<section class="currency-page">
+  <div class="currency-page__search">
+    <input
+      type="text"
+      [formControl]="form"
+      placeholder="Base currency (e.g. USD)"
+      class="currency-page__input"
+      autocomplete="off"
+    />
+  </div>
+
+  @if (loading()) {
+    <p class="currency-page__hint">Loading…</p>
+  } @else if (error()) {
+    <p class="currency-page__hint currency-page__hint--error">{{ error() }}</p>
+  } @else if (currency(); as data) {
+    <article class="currency-card">
+      <header class="currency-card__header">
+        <h1 class="currency-card__title">1 {{ data.base_code }}</h1>
+        <p class="currency-card__meta">Updated {{ data.time_last_update_utc }}</p>
+      </header>
+
+      <ul class="currency-card__rates">
+        @for (entry of conversionEntries(data); track entry.code) {
+          <li class="currency-card__row">
+            <span class="currency-card__code">{{ entry.code }}</span>
+            <span class="currency-card__rate">{{ entry.rate | number : '1.2-4' }}</span>
+          </li>
+        }
+      </ul>
+    </article>
+  } @else {
+    <p class="currency-page__hint">Type a currency code like USD, EUR, UAH.</p>
+  }
+</section>
